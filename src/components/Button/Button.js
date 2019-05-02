@@ -1,36 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { styles } from "../../utils/styles";
-
-import styled, { css, ThemeProvider } from "styled-components";
+import styled, { css } from "styled-components";
 
 const StyledButton = styled.button`
   border-radius: 5px;
   background-color: ${props =>
-    props.secondary ? `${props.theme.secondary}` : `${props.theme.primary}`};
-  color: #fff;
+    props.secondary ? `${props.theme.color.secondary}` : `${props.theme.color.primary}`};
+  color: ${props => props.theme.color.mainWhite};
   padding: 10px 15px;
   font-size: ${props => {
-    if (props.big) return "20px";
-    return "16px";
+    if (props.big) return "1.5em";
+    return "1em";
   }};
   outline: none;
   border: none;
   cursor: pointer;
   margin: 15px;
+  transition: all 0.3s ease-in-out;
   border: 2px solid
     ${props =>
-      props.secondary ? `${props.theme.secondary}` : `${props.theme.primary}`};
+    props.secondary ? `${props.theme.color.secondary}` : `${props.theme.color.primary}`};
 
   ${props => {
     return (
       props.inverse &&
       css`
-        background-color: #fff;
-        color: #a1cdf1;
+        background-color: ${props => props.theme.color.mainWhite};
+        color: ${props => props.theme.color.primary};
       `
     );
   }}
+  &:hover {
+    box-shadow:0px 0px 5px 2px rgba(0, 0, 0, 0.2);
+  },
 `;
 const Button = ({
   label,
@@ -61,14 +63,14 @@ Button.propTypes = {
   /** Internal name in button */
   name: PropTypes.string.isRequired,
 
-  /** Background color*/
-  secondary: PropTypes.string,
+  /** Secondary color from Primary default*/
+  secondary: PropTypes.bool,
 
-  /** size */
-  big: PropTypes.string,
+  /** Font size increase from 16px to 20px*/
+  big: PropTypes.bool,
 
   /** inverse from background to border */
-  inverse: PropTypes.string,
+  inverse: PropTypes.bool,
 
   /** Function to call onClick*/
   onClick: PropTypes.func.isRequired
